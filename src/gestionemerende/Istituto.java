@@ -17,25 +17,6 @@ public class Istituto
 		this.classi = new Vector<Classe>();
 	}
 
-	public String getNome()
-	{
-		return this.nome;
-	}
-
-	public void setNome(String nome)
-	{
-		if(nome == null)
-			throw new IllegalArgumentException("Nome cannot be null");
-		if(nome.length() <= 0)
-			throw new IllegalArgumentException("The length of Nome must be positive");
-		this.nome = nome;
-	}
-
-	public Vector<Classe> getClassi()
-	{
-		return this.classi;
-	}
-	
 	public void addClasse(Classe classe)
 	{
 		if(classe == null)
@@ -43,8 +24,18 @@ public class Istituto
 		this.classi.addElement(classe);
 	}
 
+	public Vector<Classe> getClassi()
+	{
+		return this.classi;
+	}
+
+	public String getNome()
+	{
+		return this.nome;
+	}
+
 	@Override public String toString()
 	{
-		return "Istituto [nome=" + this.nome + ", Numero Classi=" + this.classi.size() + "]";
+		return "Istituto [Nome=" + this.nome + ", Numero Classi=" + this.classi.size() + "]";
 	}
 }

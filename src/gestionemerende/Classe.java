@@ -36,27 +36,19 @@ public class Classe
 		return ordini;
 	}
 	
-	private boolean isDisponibile(Ordine ordine)
-	{
-		boolean disponibile = true;
-		for(Ordine o : this.ordini)
-			if(ordine.getCodice().equals(o.getCodice()))
-				disponibile = false;
-		return disponibile;
-	}
-	
 	public void addOrdine(Ordine ordine)
 	{
 		if(ordine == null)
 			throw new IllegalArgumentException("Ordine cannot be null");
-		if(!isDisponibile(ordine))
-			throw new IllegalArgumentException("Ordine " + ordine.getCodice() + " already present");
-		this.ordini.add(ordine);
+		for(Ordine o : this.ordini)
+			if(ordine.getCodice().equals(o.getCodice()))
+				throw new IllegalArgumentException("Ordine " + ordine.getCodice() + " already present");
 		ordine.setClasse(this);
+		this.ordini.addElement(ordine);
 	}
 
 	@Override public String toString()
 	{
-		return "Classe [nome=" + this.nome + ", Numero Ordini=" + this.ordini.size() + "]";
+		return "Classe [Nome=" + this.nome + ", Numero Ordini=" + this.ordini.size() + "]";
 	}	
 }

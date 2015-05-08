@@ -14,19 +14,13 @@ public class Panino extends Articolo
 		this.carneSuina = carneSuina;
 	}
 
-	public boolean isVegetariano()
-	{
-		return this.vegetariano;
-	}
-
 	public boolean isCarneSuina()
 	{
 		return this.carneSuina;
 	}
 
-	@Override
-	public String toString()
+	public boolean isVegetariano()
 	{
-		return "Panino [vegetariano=" + vegetariano + ", carneSuina=" + carneSuina + "]";
+		return this.vegetariano;
 	}
 }

@@ -6,17 +6,41 @@ public class Ordine
 {
 	private String codice;
 	private Classe classe;
-	private Vector<Articolo> articoli;
+	private Vector<ElementoOrdine> elementiOrdine;
 	
 	public Ordine(String codice)
 	{
-
 		if(codice == null)
 			throw new IllegalArgumentException("Codice cannot be null");
 		if(codice.length() <= 0)
 			throw new IllegalArgumentException("The length of Codice must be positive");
 		this.codice = codice;
-		this.articoli = new Vector<Articolo>();
+		this.elementiOrdine = new Vector<ElementoOrdine>();
+	}
+
+	public void addArticolo(Articolo articolo, int quantità)
+	{
+		if(articolo == null)
+			throw new IllegalArgumentException("a cannot be null");
+		if(quantità <= 0)
+			throw new IllegalArgumentException("quantità must be positive");
+		ElementoOrdine elementoOrdine = new ElementoOrdine(articolo, this, quantità);
+		ElementoOrdine elementoOrdinePresente = null;
+		for(ElementoOrdine e : this.elementiOrdine)
+			if(e.getArticolo().equals(elementoOrdine))
+				elementoOrdinePresente = e;
+		if(elementoOrdinePresente == null)
+		{
+			elementiOrdine.addElement(elementoOrdine);
+			elementoOrdine.getArticolo().addElementoOrdine(elementoOrdine);
+		}
+		else
+			elementoOrdinePresente.increaseQuantitaBy(quantità);
+	}
+
+	public Classe getClasse()
+	{
+		return this.classe;
 	}
 
 	public String getCodice()
@@ -24,45 +48,31 @@ public class Ordine
 		return this.codice;
 	}
 
-	public Classe getClasse()
+	public double getCostoTotale()
 	{
-		return this.classe;
+		double costoTotale = 0;
+		for(ElementoOrdine elementoOrdine : this.elementiOrdine)
+			costoTotale += elementoOrdine.getArticolo().getCostoUnitario()*elementoOrdine.getQuantità();
+		return costoTotale;
 	}
-	
+
+	public Vector<ElementoOrdine> getElementiOrdine()
+	{
+		return this.elementiOrdine;
+	}
+
+	public int getNumeroArticoli()
+	{
+		int numeroArticoli = 0;
+		for(ElementoOrdine elementoOrdine : this.elementiOrdine)
+			numeroArticoli += elementoOrdine.getQuantità();
+		return numeroArticoli;
+	}
+
 	public void setClasse(Classe classe)
 	{
 		if(classe == null)
 			throw new IllegalArgumentException("Classe cannot be null");
 		this.classe = classe;
-	}
-
-	public Vector<Articolo> getArticoli()
-	{
-		return this.articoli;
-	}
-	
-	public void addArticolo(Articolo articolo)
-	{
-		if(articolo == null)
-			throw new IllegalArgumentException("a cannot be null");
-		this.articoli.addElement(articolo);
-	}
-	
-	public int getNumeroArticoli()
-	{
-		return this.articoli.size();
-	}
-	
-	public double getCostoTotale()
-	{
-		double costoTotale = 0;
-		for(Articolo a : this.articoli)
-			costoTotale += a.getCostoUnitario();
-		return costoTotale;
-	}
-
-	@Override public String toString()
-	{
-		return "Ordine [codice=" + codice + ", classe=" + classe + ", Numero Articoli=" + articoli.size() + "]";
 	}
 }

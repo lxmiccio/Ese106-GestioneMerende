@@ -19,6 +19,6 @@ public class Bibita extends Articolo
 
 	@Override public String toString()
 	{
-		return "Bibita [quantità=" + this.quantità + "]";
+		return "Bibita [Quantità=" + this.quantità + "]";
 	}
 }

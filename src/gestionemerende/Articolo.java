@@ -1,7 +1,10 @@
 package gestionemerende;
 
+import java.util.Vector;
+
 public abstract class Articolo
 {
+	private Vector<ElementoOrdine> elementiOrdine;
 	private String codice;
 	private String descrizione;
 	private double costoUnitario;
@@ -13,18 +16,31 @@ public abstract class Articolo
 			throw new IllegalArgumentException("Codice cannot be null");
 		if(codice.length() <= 0)
 			throw new IllegalArgumentException("The length of Codice must be positive");
-		this.codice = codice;
 		if(descrizione == null)
 			throw new IllegalArgumentException("Descrizione cannot be null");
 		if(descrizione.length() <= 0)
 			throw new IllegalArgumentException("The length of Descrizione must be positive");
-		this.descrizione = descrizione;
 		if(costoUnitario <= 0)
-			throw new IllegalArgumentException("CostoUnitario must be positive");
-		this.costoUnitario = costoUnitario;
+			throw new IllegalArgumentException("CostoUnitario must be positive");	
 		if(apportoCalorico <= 0)
 			throw new IllegalArgumentException("ApportoCalorico must be positive");
+		this.codice = codice;
+		this.descrizione = descrizione;
+		this.costoUnitario = costoUnitario;
 		this.apportoCalorico = apportoCalorico;
+		this.elementiOrdine = new Vector<ElementoOrdine>();
+	}
+
+	public void addElementoOrdine(ElementoOrdine elementoOrdine)
+	{
+		if(elementoOrdine == null)
+			throw new IllegalArgumentException("ElementoOrdine cannot be null");
+		this.elementiOrdine.addElement(elementoOrdine);
+	}
+	
+	public double getApportoCalorico()
+	{
+		return this.apportoCalorico;
 	}
 
 	public String getCodice()
@@ -32,23 +48,26 @@ public abstract class Articolo
 		return this.codice;
 	}
 
-	public String getDescrizione()
-	{
-		return this.descrizione;
-	}
-
 	public double getCostoUnitario()
 	{
 		return this.costoUnitario;
 	}
 
-	public double getApportoCalorico()
+	public String getDescrizione()
 	{
-		return this.apportoCalorico;
+		return this.descrizione;
 	}
 
+	public int getTotaleOrdini()
+	{
+		int totale = 0;
+		for(ElementoOrdine elementoOrdine : this.elementiOrdine)
+			totale += elementoOrdine.getQuantità();
+		return totale;
+	}
+	
 	@Override public String toString()
 	{
-		return "Articolo [codice=" + this.codice + ", descrizione=" + this.descrizione + ", costoUnitario=" + this.costoUnitario + ", apportoCalorico=" + this.apportoCalorico + "]";
+		return "Articolo [Codice=" + this.codice + ", Descrizione=" + this.descrizione + ", CostoUnitario=" + this.costoUnitario + ", Apporto Calorico=" + this.apportoCalorico + "]";
 	}
 }
